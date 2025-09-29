@@ -1,0 +1,228 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const GrcApp());
+}
+
+class GrcApp extends StatelessWidget {
+  const GrcApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Global Reciprocal Colleges',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: const GrcHomePage(),
+    );
+  }
+}
+
+class GrcHomePage extends StatefulWidget {
+  const GrcHomePage({super.key});
+
+  @override
+  State<GrcHomePage> createState() => _GrcHomePageState();
+}
+
+class _GrcHomePageState extends State<GrcHomePage> {
+  int _selectedIndex = 0;
+
+  final List<String> _titles = [
+    "College of Computer Studies",
+    "About GRC",
+    "Admissions",
+    "Contact Us"
+  ];
+
+  final List<IconData> _icons = [
+    Icons.computer,
+    Icons.info,
+    Icons.school,
+    Icons.contact_mail,
+  ];
+
+  final List<Widget> _pages = [
+    // CCS PAGE
+    Column(
+      children: [
+        const Text(
+          "College of Computer Studies",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 20),
+        Image.network(
+          "https://picsum.photos/400/200?random=1",
+          height: 200,
+          fit: BoxFit.cover,
+        ),
+        const SizedBox(height: 10),
+        const Text(
+          "The CCS program equips students with knowledge in programming, "
+          "systems development, and emerging technologies.",
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+
+    // ABOUT PAGE
+    const Column(
+      children: [
+        Text(
+          "About Global Reciprocal Colleges",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 20),
+        Text(
+          "Global Reciprocal Colleges (GRC) is dedicated to excellence "
+          "in education, touching hearts, renewing minds, and transforming lives.",
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+
+    // ADMISSIONS PAGE
+    const Column(
+      children: [
+        Text(
+          "Admissions",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 20),
+        Text(
+          "We welcome aspiring students to join our programs. "
+          "Scholarships and financial aid are available for qualified applicants.",
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+
+    // CONTACT PAGE
+    const Column(
+      children: [
+        Text(
+          "Contact Us",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 20),
+        Text(
+          "Address: Caloocan City, Philippines\n"
+          "Phone: (02) 123-4567\n"
+          "Email: info@grc.edu.ph",
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        title: const Text('Global Reciprocal Colleges'),
+        centerTitle: true,
+        backgroundColor: Colors.red,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildProfile(),
+            _buildMenu(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: _pages[_selectedIndex],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfile() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 30),
+      child: Column(
+        children: [
+          Container(
+            width: 160,
+            height: 160,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.blue,
+                width: 4,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+              image: const DecorationImage(
+                image: NetworkImage(
+                    "https://picsum.photos/200/200?random=2"), // Profile Placeholder
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(height: 15),
+          const Text(
+            "Global Reciprocal Colleges",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const Text(
+            "Touching Hearts, Renewing Minds, Transforming Lives",
+            style: TextStyle(fontSize: 14, color: Colors.black54),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenu() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(_titles.length, (index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 28,
+                  backgroundColor:
+                      _selectedIndex == index ? Colors.red : Colors.grey[300],
+                  child: Icon(
+                    _icons[index],
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  _titles[index],
+                  style: TextStyle(
+                    fontWeight: _selectedIndex == index
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
