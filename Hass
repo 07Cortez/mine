@@ -1,0 +1,298 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const GrcApp());
+}
+
+class GrcApp extends StatelessWidget {
+  const GrcApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Global Reciprocal Colleges',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: const GrcHomePage(),
+    );
+  }
+}
+
+class GrcHomePage extends StatefulWidget {
+  const GrcHomePage({super.key});
+
+  @override
+  State<GrcHomePage> createState() => _GrcHomePageState();
+}
+
+class _GrcHomePageState extends State<GrcHomePage> {
+  int _selectedIndex = 0;
+
+  final List<String> _titles = [
+    "CCS",
+    "About",
+    "Admissions",
+    "Contact",
+  ];
+
+  final List<IconData> _icons = [
+    Icons.computer,
+    Icons.info,
+    Icons.school,
+    Icons.contact_mail,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        title: const Text('Global Reciprocal Colleges'),
+        centerTitle: true,
+        backgroundColor: Colors.red,
+        elevation: 0,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildProfile(),
+            _buildMenu(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: _buildContent(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfile() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 30),
+      child: Column(
+        children: [
+          Container(
+            width: 160,
+            height: 160,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.blue,
+                width: 4,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+              image: const DecorationImage(
+                image: NetworkImage(
+                    "https://picsum.photos/200/200?random=2"), // Profile Placeholder
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const SizedBox(height: 15),
+          const Text(
+            "Global Reciprocal Colleges",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const Text(
+            "Touching Hearts, Renewing Minds, Transforming Lives",
+            style: TextStyle(fontSize: 14, color: Colors.black54),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenu() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(_titles.length, (index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: 28,
+                  backgroundColor:
+                      _selectedIndex == index ? Colors.red : Colors.grey[300],
+                  child: Icon(
+                    _icons[index],
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  _titles[index],
+                  style: TextStyle(
+                    fontWeight: _selectedIndex == index
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    switch (_selectedIndex) {
+      case 0:
+        return _buildCcsPage();
+      case 1:
+        return const Column(
+          children: [
+            Text(
+              "About Global Reciprocal Colleges",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Global Reciprocal Colleges (GRC) is dedicated to excellence "
+              "in education, touching hearts, renewing minds, and transforming lives.",
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+      case 2:
+        return const Column(
+          children: [
+            Text(
+              "Admissions",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "We welcome aspiring students to join our programs. "
+              "Scholarships and financial aid are available for qualified applicants.",
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+      case 3:
+        return const Column(
+          children: [
+            Text(
+              "Contact Us",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            Text(
+              "Address: Caloocan City, Philippines\n"
+              "Phone: (02) 123-4567\n"
+              "Email: info@grc.edu.ph",
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+      default:
+        return const Text("Select a menu option");
+    }
+  }
+
+  Widget _buildCcsPage() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "COLLEGE OF COMPUTER STUDIES",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 20),
+
+        // Mission
+        const Text("MISSION", style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 5),
+        const Text(
+          "The College of Computer Studies (CCS) develops a society for competitive "
+          "IT professionals through values-based quality education guided by the "
+          "principles and best practices of the IT Program in order to promote nation building.",
+          textAlign: TextAlign.justify,
+        ),
+        const SizedBox(height: 15),
+
+        // Vision
+        const Text("VISION", style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 5),
+        const Text(
+          "GRC-College of Computer Studies envisions producing quality IT professionals with values.",
+          textAlign: TextAlign.justify,
+        ),
+        const SizedBox(height: 15),
+
+        // Program Description
+        const Text("PROGRAM DESCRIPTION",
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 5),
+        const Text(
+          "The BS Information Technology program includes the study of the utilization of both "
+          "hardware and software technologies involving planning, installing, customizing, operating, "
+          "managing and administering; and maintaining information technology infrastructure that provides "
+          "computing solutions to address the needs of an organization.\n\n"
+          "The program prepares graduates to address various user needs involving the selection, development, "
+          "application, integration and management of computing technologies within an organization.",
+          textAlign: TextAlign.justify,
+        ),
+        const SizedBox(height: 15),
+
+        // Job Opportunities
+        const Text("JOB OPPORTUNITIES",
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 5),
+        const Text(
+          "Professions for BSIT Graduates:\n"
+          "• Computer Programmer\n"
+          "• Data Analyst\n"
+          "• Database Administrator\n"
+          "• Information Security Administrator\n"
+          "• IT Audit Specialist\n"
+          "• Network Engineer\n"
+          "• Quality Assurance Specialist\n"
+          "• Research and Development Computing Professional\n"
+          "• Systems Administrator\n"
+          "• Software Engineer\n"
+          "• Software Support Specialist\n"
+          "• Systems Analyst\n"
+          "• Systems Integration Personnel\n"
+          "• Systems Software Developer\n"
+          "• Technical Support Specialist\n"
+          "• Web and Application Software Developer",
+        ),
+        const SizedBox(height: 15),
+
+        // Skills
+        const Text("SKILLS OF BSIT GRADUATES",
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 5),
+        const Text(
+          "• Knowledge for Solving Computing Problems\n"
+          "• Problem Analysis\n"
+          "• Design/Development of Solutions\n"
+          "• Modern Tools Usage\n"
+          "• Individual and Team Work\n"
+          "• Communication\n"
+          "• Computing Professionalism and Social Responsibility\n"
+          "• Life-Long Learning",
+        ),
+      ],
+    );
+  }
+}
