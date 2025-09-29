@@ -1,0 +1,220 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Global Reciprocal Colleges',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const GrcHomePage(),
+    );
+  }
+}
+
+class GrcHomePage extends StatefulWidget {
+  const GrcHomePage({super.key});
+
+  @override
+  State<GrcHomePage> createState() => _GrcHomePageState();
+}
+
+class _GrcHomePageState extends State<GrcHomePage> {
+  String selectedPage = "";
+
+  // ✅ Profile Section
+  Widget _buildProfile() {
+    return Column(
+      children: [
+        const SizedBox(height: 40),
+        Container(
+          width: 160,
+          height: 160,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.blue,
+              width: 4,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10,
+                offset: Offset(0, 5),
+              ),
+            ],
+          ),
+          child: const ClipOval(
+            child: Image(
+              image: NetworkImage(
+                'https://tse1.mm.bing.net/th/id/OIP.Od3Y_-oDAo3A-3fwgtnFewAAAA?rs=1&pid=ImgDetMain&o=7&rm=3',
+              ),
+              width: 160,
+              height: 160,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        const Text(
+          "Global Reciprocal Colleges",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 30),
+      ],
+    );
+  }
+
+  // ✅ Menu Button
+  Widget _buildMenuButton(
+      {required IconData icon,
+      required String label,
+      required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.blue.shade100,
+            child: Icon(icon, size: 30, color: Colors.blue.shade800),
+          ),
+          const SizedBox(height: 8),
+          Text(label, style: const TextStyle(fontSize: 14)),
+        ],
+      ),
+    );
+  }
+
+  // ✅ Menu Row
+  Widget _buildMenu() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildMenuButton(
+              icon: Icons.computer,
+              label: "CCS",
+              onTap: () {
+                setState(() => selectedPage = "CCS");
+              }),
+          _buildMenuButton(
+              icon: Icons.info,
+              label: "About",
+              onTap: () {
+                setState(() => selectedPage = "About");
+              }),
+          _buildMenuButton(
+              icon: Icons.school,
+              label: "Admission",
+              onTap: () {
+                setState(() => selectedPage = "Admission");
+              }),
+          _buildMenuButton(
+              icon: Icons.phone,
+              label: "Contact",
+              onTap: () {
+                setState(() => selectedPage = "Contact");
+              }),
+        ],
+      ),
+    );
+  }
+
+  // ✅ Content Switcher
+  Widget _buildContent() {
+    switch (selectedPage) {
+      case "CCS":
+        return _buildCcsContent();
+      case "About":
+        return const Padding(
+          padding: EdgeInsets.all(20),
+          child: Text(
+            "Global Reciprocal Colleges is committed to excellence in education and holistic student development.",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        );
+      case "Admission":
+        return const Padding(
+          padding: EdgeInsets.all(20),
+          child: Text(
+            "We offer open admissions and scholarships for deserving students. Apply now and be part of GRC!",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        );
+      case "Contact":
+        return const Padding(
+          padding: EdgeInsets.all(20),
+          child: Text(
+            "For inquiries, visit our official website or reach us at info@grc.edu.ph.",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        );
+      default:
+        return const Padding(
+          padding: EdgeInsets.all(20),
+          child: Text(
+            "Welcome! Select a section below.",
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
+        );
+    }
+  }
+
+  // ✅ CCS Grid with pictures
+  Widget _buildCcsContent() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: GridView.count(
+        crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        children: const [
+          Image(
+              image: NetworkImage(
+                  "https://via.placeholder.com/300x200?text=CCS+Lab")),
+          Image(
+              image: NetworkImage(
+                  "https://via.placeholder.com/300x200?text=Programming+Class")),
+          Image(
+              image: NetworkImage(
+                  "https://via.placeholder.com/300x200?text=IT+Seminar")),
+          Image(
+              image: NetworkImage(
+                  "https://via.placeholder.com/300x200?text=Thesis+Defense")),
+        ],
+      ),
+    );
+  }
+
+  // ✅ Main Build
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildProfile(),
+            _buildMenu(),
+            _buildContent(),
+            const SizedBox(height: 30),
+          ],
+        ),
+      ),
+    );
+  }
+}
