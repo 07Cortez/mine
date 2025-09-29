@@ -1,0 +1,143 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Global Reciprocal Colleges',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: const TextTheme(
+          headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          titleMedium: TextStyle(fontSize: 18, color: Colors.black87),
+        ),
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  Widget _buildHeroSection(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(40),
+      color: Colors.blue.shade700,
+      width: double.infinity,
+      child: Column(
+        children: [
+          Text(
+            'GLOBAL RECIPROCAL COLLEGES',
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Touching Hearts, Renewing Minds, Transforming Lives',
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: Colors.white70),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: () {
+              // Add admissions page later
+            },
+            icon: const Icon(Icons.edit_document),
+            label: const Text('Apply Now'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSection(BuildContext context, String title, String body,
+      {String? route}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title,
+              style:
+                  const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 8),
+          Text(body, style: const TextStyle(fontSize: 16)),
+          if (route != null)
+            TextButton.icon(
+              onPressed: () {
+                // Example navigation placeholder
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Navigate to $route')),
+                );
+              },
+              icon: const Icon(Icons.arrow_forward),
+              label: const Text('Learn More'),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFooter() {
+    return Container(
+      color: Colors.grey.shade900,
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      child: const Text(
+        '© 2025 Global Reciprocal Colleges',
+        style: TextStyle(color: Colors.white70),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Global Reciprocal Colleges'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildHeroSection(context),
+            _buildSection(
+              context,
+              'Mission & Vision',
+              'GRC is creating a culture of excellence in education by nurturing values, renewing minds, and transforming lives.',
+              route: '/about',
+            ),
+            _buildSection(
+              context,
+              'Admissions & Scholarship',
+              'We offer open admission to students who are passionate about learning and provide scholarships to deserving applicants.',
+              route: '/admissions',
+            ),
+            _buildSection(
+              context,
+              'Contact Us',
+              'For inquiries, visit our contact page or reach out through our official communication channels.',
+              route: '/contact',
+            ),
+            const SizedBox(height: 20),
+            _buildFooter(),
+          ],
+        ),
+      ),
+    );
+  }
+}
